@@ -49,6 +49,10 @@ function retry(fn, N, retryTimeout) {
     };
 }
 
+function series(funcs) {
+    return funcs.reduce(Q.when, Q());
+}
 
 // Exports
 exports.retry = retry;
+exports.series = series;
