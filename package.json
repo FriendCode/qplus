@@ -1,0 +1,30 @@
+{
+  "name": "qplus",
+  "version": "0.0.0",
+  "description": "Common & useful patterns with promises (Q)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FriendCode/qplus.git"
+  },
+  "keywords": [
+    "q",
+    "promises",
+    "pattern",
+    "retry",
+    "series",
+    "flow",
+    "control"
+  ],
+  "author": "Aaron O'Mullan <aaron@friendco.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FriendCode/qplus/issues"
+  },
+  "dependencies": {
+    "q": "~0.9.7"
+  }
+}
