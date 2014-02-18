@@ -4,7 +4,7 @@
   "description": "Common & useful patterns with promises (Q)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --reporter list"
   },
   "repository": {
     "type": "git",
@@ -26,5 +26,8 @@
   },
   "dependencies": {
     "q": "~0.9.7"
+  },
+  "devDependencies": {
+    "mocha": "1.17.1"
   }
 }
