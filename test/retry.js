@@ -66,4 +66,20 @@ describe('retry', function() {
         })
         .done(done, done);
     });
+
+    it('should not add latency when no timeout given', function(done) {
+        var N = 500;
+
+        // Should take a lot less than 300ms
+        this.timeout(300);
+
+        retry(function() {
+            throw new Error('fail');
+        }, N)()
+        .fail(function() {
+
+        })
+        .done(done, done);
+
+    });
 });
