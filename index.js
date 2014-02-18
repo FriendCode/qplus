@@ -52,7 +52,11 @@ function retry(fn, N, retryTimeout, canContinue) {
                 // No tries left, so reject promise with last error
                 if(remainingTries >= 0 && canContinue(err, N - remainingTries)) {
                     // We have some retries left, so retryTimeout
-                    setTimeout(_try, retryTimeout);
+                    if(retryTimeout) {
+                        setTimeout(_try, retryTimeout);
+                    } else {
+                        _try();
+                    }
                 } else {
                     // Total failure
                     d.reject(err);
