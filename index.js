@@ -16,10 +16,18 @@ function retry(fn, N, retryTimeout) {
         // Our failure counter (decounter by decrementing)
         var remainingTries = N;
 
+        // Create function without args
+        // that calls fn with args
+        // this makes it easier to wrap
+        var f = function () {
+            return fn.apply(null, args);
+        };
+
         // The function with the try logic
         var _try = function _try() {
             // Call function
-            fn.apply(null, args)
+
+            Q.invoke(f)
             .then(function(result) {
                 // Success
                 d.resolve(result);
