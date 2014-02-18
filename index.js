@@ -3,10 +3,22 @@ var Q = require('q');
 
 // Retry a function a maximum of N times
 // the function must use promises and will always be executed once
-function retry(fn, N, retryTimeout) {
+function retry(fn, N, retryTimeout, canContinue) {
+    if(typeof N === "function" && retryTimeout === canContinue === undefined) {
+        canContinue = N;
+        N = retryTimeout = undefined;
+    }
+    else if(typeof retryTimeout === "function") {
+        canContinue = retryTimeout;
+        retryTimeout = undefined;
+    }
     // Default args
     N = ((N === undefined || N < 0) ? 0 : N - 1);
     retryTimeout = (retryTimeout === undefined ? 0 : retryTimeout);
+    canContinue = (canContinue === undefined) ?
+        function() { return true; } :
+        canContinue;
+
 
     return function wrapper() {
         // Actual arguments (passed first time)
@@ -38,13 +50,13 @@ function retry(fn, N, retryTimeout) {
                 remainingTries -= 1;
 
                 // No tries left, so reject promise with last error
-                if(remainingTries < 0) {
+                if(remainingTries >= 0 && canContinue(err, N - remainingTries)) {
+                    // We have some retries left, so retryTimeout
+                    setTimeout(_try, retryTimeout);
+                } else {
                     // Total failure
                     d.reject(err);
                     return;
-                } else {
-                    // We have some retries left, so retry
-                    setTimeout(_try, retryTimeout);
                 }
             }).done();
         };

@@ -21,12 +21,15 @@ describe('retry', function() {
         .done(done, done);
     });
 
-    it('should not retry on fatal errors', function(done) {
+    it('support a "canContinue" function', function(done) {
         var i = 0;
         var limit = 5;
         var N = 10;
         retry(function() {
+            i++;
             return Q.reject("I'm a failure as a function");
+        }, N, 0, function(err, tries) {
+            return tries < limit;
         })()
         .fail(function(err) {
             assert.equal(i, limit);
