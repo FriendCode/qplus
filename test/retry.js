@@ -80,6 +80,18 @@ describe('retry', function() {
 
         })
         .done(done, done);
+    });
 
+    it('should support promises chains', function(done) {
+        retry(function() {
+            return Q()
+            .then(function() {
+                return 'abc';
+            });
+        })()
+        .then(function(r) {
+            assert.equal(r, 'abc');
+        })
+        .done(done, done);
     });
 });
